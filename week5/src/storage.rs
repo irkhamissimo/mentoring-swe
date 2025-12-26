@@ -1,10 +1,8 @@
 use std::fmt;
-use std::fs;
 use std::path::PathBuf;
 
 use crate::task::task::Task;
 
-const FILE_PATH: &str = "tasks.json";
 #[derive(Debug)]
 pub enum StorageError {
     Io(std::io::Error),

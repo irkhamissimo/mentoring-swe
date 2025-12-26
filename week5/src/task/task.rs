@@ -22,15 +22,6 @@ impl Task {
     pub fn id(&self) -> u32 {
         self.id
     }
-    pub fn title(&self) -> &str {
-        &self.title
-    }
-    pub fn is_completed(&mut self) -> bool {
-        self.completed
-    }
-    pub fn created_at(&self) -> DateTime<Local> {
-        self.created_at
-    }
 
     pub fn mark_done(&mut self) -> bool {
         let was_completed = self.completed;

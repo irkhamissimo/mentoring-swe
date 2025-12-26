@@ -37,7 +37,7 @@ List tasks
 cargo run -- list
 
 
-## Example output:
+Example output:
 
 [ ] Learn Rust (id: 1, created: 2025-01-01 19:30)
 [✓] Write README (id: 2, created: 2025-01-01 20:00)

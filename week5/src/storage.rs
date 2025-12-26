@@ -1,6 +1,6 @@
 use std::fmt;
 use std::fs;
-use std::path::Path;
+use std::path::PathBuf;
 
 use crate::task::task::Task;
 
@@ -33,16 +33,27 @@ impl fmt::Display for StorageError {
 }
 impl std::error::Error for StorageError {}
 pub fn load_tasks() -> Result<Vec<Task>, StorageError> {
-    if !Path::new(FILE_PATH).exists() {
+    let path = tasks_file_path();
+    if !path.exists() {
         return Ok(Vec::new());
     }
 
-    let contents = fs::read_to_string(FILE_PATH)?;
+    let contents = std::fs::read_to_string(path)?;
     let tasks = serde_json::from_str(&contents)?;
     Ok(tasks)
 }
 pub fn save_tasks(tasks: &Vec<Task>) -> Result<(), StorageError> {
+    let path = tasks_file_path();
     let json = serde_json::to_string_pretty(tasks)?;
-    fs::write(FILE_PATH, json)?;
+    std::fs::write(path, json)?;
     Ok(())
+}
+
+fn tasks_file_path() -> PathBuf {
+    let mut dir = dirs::data_local_dir().expect("Could not find local data directory");
+    dir.push("todolist");
+    std::fs::create_dir_all(&dir).ok();
+
+    dir.push("tasks.json");
+    dir
 }

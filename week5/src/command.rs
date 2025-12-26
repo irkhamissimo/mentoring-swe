@@ -1,4 +1,4 @@
-use crate::storage;
+use crate::storage::{self, StorageError, load_tasks, save_tasks};
 use crate::task::Task;
 use clap::{Parser, Subcommand};
 
@@ -16,7 +16,7 @@ pub enum Commands {
     Add { title: String },
     List,
     Done { id: u32 },
-    // Remove { id: u32 },
+    Remove { id: u32 },
 }
 pub fn handle_add(title: String) -> Result<(), Box<dyn std::error::Error>> {
     let mut tasks = storage::load_tasks()?;
@@ -68,5 +68,21 @@ pub fn handle_done(id: u32) -> Result<(), Box<dyn std::error::Error>> {
     storage::save_tasks(&tasks)?;
     println!("Task {} marked as done ✓", id);
 
+    Ok(())
+}
+
+pub fn handle_remove(id: u32) -> Result<(), StorageError> {
+    let mut tasks = load_tasks()?;
+    let before = tasks.len();
+
+    tasks.retain(|t| t.id() != id);
+
+    if tasks.len() == before {
+        print!("Task {} not found", id);
+        return Ok(());
+    }
+
+    save_tasks(&tasks)?;
+    println!("Removed task {}", id);
     Ok(())
 }

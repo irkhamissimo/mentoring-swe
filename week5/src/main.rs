@@ -3,7 +3,7 @@ mod storage;
 mod task;
 
 use clap::Parser;
-use command::{Cli, Commands, handle_add, handle_done, handle_list};
+use command::{Cli, Commands, handle_add, handle_done, handle_list, handle_remove};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = Cli::parse();
@@ -16,6 +16,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             handle_list()?;
         }
         Commands::Done { id } => handle_done(id)?,
+        Commands::Remove { id } => handle_remove(id)?,
     }
 
     Ok(())

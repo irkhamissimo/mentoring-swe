@@ -36,7 +36,6 @@ cargo run -- add "Learn Rust"
 List tasks
 cargo run -- list
 
-
 Example output:
 
 [ ] Learn Rust (id: 1, created: 2025-01-01 19:30)
